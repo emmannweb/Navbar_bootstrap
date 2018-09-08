@@ -30,23 +30,31 @@
 
 
 				<div class="site-branding navbar-brand">
+											<!--   output the custom logo when site title and site description is not active-->
 							<?php
-							the_custom_logo();
-							if ( is_front_page() && is_home() ) :
-								?>
-								<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-								<?php
-							else :
-								?>
-								<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-								<?php
-										endif;
-								$wp_bootstrap_description = get_bloginfo( 'description', 'display' );
-								if ( $wp_bootstrap_description || is_customize_preview() ) :
+							if( get_custom_logo() ) {
+									the_custom_logo();
+							} elseif ( is_front_page() || is_home() ) { ?>
+
+									<h1 class="site-title">
+											<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a>
+									</h1>
+									<?php
+									$description = get_bloginfo( 'description', 'display' );
+							} else {?>
+
+									<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
+									<?php
+									$description = get_bloginfo( 'description', 'display' );
+							}
+
+							if ( ( isset($description) && $description) || is_customize_preview() ) {
 									?>
-									<p class="site-description"><?php echo $wp_bootstrap_description; /* WPCS: xss ok. */ ?></p>
-								<?php endif; ?>
-							</div><!-- .site-branding -->
+									<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
+									<?php
+							}
+							?>
+					</div><!-- .site-branding -->
 
 			         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarheader" aria-controls="navbarheader" aria-expanded="false" aria-label="Toggle navigation">
 			           <span class="navbar-toggler-icon"></span>
